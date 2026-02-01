@@ -1,0 +1,29 @@
+services:
+  backend:
+    build: ./backend
+    container_name: task_tracker_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - task_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  frontend:
+    build: ./frontend
+    container_name: task_tracker_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - task_network
+
+networks:
+  task_network:
+    driver: bridge
