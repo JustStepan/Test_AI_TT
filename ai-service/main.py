@@ -1,23 +1,34 @@
+import os
+
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from routes.task_ai_post import router
 
 
+load_dotenv()
+
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+
 app = FastAPI(
-    title="AI_Service for Task project",
-    description="API для ИИ-шной обработки запросов",
+    title="AI Service",
+    description="AI микросервис для интеллектуальной обработки задач",
+    version="1.0.0",
 )
-app.include_router(router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-@app.get('/')
-def health_check():
-    return {'health_check': 'ok'}
+app.include_router(router)
+
+
+@app.get("/")
+async def health_check() -> dict:
+    """Проверка работоспособности сервиса."""
+    return {"status": "ok"}

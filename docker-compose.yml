@@ -24,6 +24,16 @@ services:
     networks:
       - task_network
 
+  ai-service:
+    build: ./ai-service
+    container_name: task_tracker_ai
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./ai-service/.env
+    networks:
+      - task_network
+
 networks:
   task_network:
     driver: bridge
