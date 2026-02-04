@@ -3,7 +3,7 @@ from typing import Literal, List
 from datetime import date, datetime
 
 
-class DescriptionRequest(BaseModel):
+class TitleRequest(BaseModel):
     title: str
 
 
@@ -11,8 +11,7 @@ class DescriptionResponse(BaseModel):
     description: str
 
 
-class DeadlineRequest(BaseModel):
-    title: str
+class TitleDescriptRequest(TitleRequest):
     description: str
 
 
@@ -21,18 +20,14 @@ class DeadlineResponse(BaseModel):
     reasoning: str
 
 
-class PriorityRequest(BaseModel):
-    title: str
-    description: str
-
-
 class PriorityResponse(BaseModel):
     priority: Literal['low', 'medium', 'high']
     reasoning: str
 
 
-class ProcessTaskRequest(BaseModel):
-    title: str
+class CategoryResponse(BaseModel):
+    category: Literal['bug', 'feature', 'improvement', 'docs', 'test']
+    tags: List[str]
 
 
 class ProcessTaskResponse(BaseModel):
@@ -41,3 +36,4 @@ class ProcessTaskResponse(BaseModel):
     deadline: datetime
     category: str
     tags: List[str]
+
